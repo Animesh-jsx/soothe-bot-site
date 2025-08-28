@@ -1,13 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Bot, User } from "lucide-react";
 
-interface ChatMessageProps {
-  message: string;
-  isBot: boolean;
-  timestamp?: Date;
-}
-
-export const ChatMessage = ({ message, isBot, timestamp }: ChatMessageProps) => {
+export const ChatMessage = ({ message, isBot, timestamp }) => {
   return (
     <div
       className={cn(

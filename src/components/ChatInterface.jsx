@@ -3,16 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send, Sparkles, Bot } from "lucide-react";
 import { ChatMessage } from "./ChatMessage";
-import { cn } from "@/lib/utils";
 
-interface Message {
-  id: string;
-  text: string;
-  isBot: boolean;
-  timestamp: Date;
-}
-
-const INITIAL_MESSAGES: Message[] = [
+const INITIAL_MESSAGES = [
   {
     id: '1',
     text: "Hello! I'm here to help you learn more about our mental health services. How can I assist you today?",
@@ -28,7 +20,7 @@ const QUICK_RESPONSES = [
   "What are your treatment approaches?"
 ];
 
-const BOT_RESPONSES: Record<string, string> = {
+const BOT_RESPONSES = {
   "therapy": "We offer various therapy approaches including Cognitive Behavioral Therapy (CBT), Dialectical Behavior Therapy (DBT), and mindfulness-based interventions. Would you like to know more about any specific approach?",
   "conditions": "We provide comprehensive treatment for anxiety, depression, PTSD, bipolar disorder, ADHD, eating disorders, and relationship issues. Our team specializes in evidence-based treatments tailored to your individual needs.",
   "appointment": "To schedule an appointment, you can call us at (555) 123-4567 or use our online booking system. We typically have availability within 1-2 weeks and offer both in-person and virtual sessions.",
@@ -37,10 +29,10 @@ const BOT_RESPONSES: Record<string, string> = {
 };
 
 export const ChatInterface = () => {
-  const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
+  const [messages, setMessages] = useState(INITIAL_MESSAGES);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -50,7 +42,7 @@ export const ChatInterface = () => {
     scrollToBottom();
   }, [messages]);
 
-  const generateBotResponse = (userMessage: string): string => {
+  const generateBotResponse = (userMessage) => {
     const lowerMessage = userMessage.toLowerCase();
     
     if (lowerMessage.includes("therapy") || lowerMessage.includes("treatment")) {
@@ -66,11 +58,11 @@ export const ChatInterface = () => {
     }
   };
 
-  const handleSendMessage = async (text: string) => {
+  const handleSendMessage = async (text) => {
     if (!text.trim()) return;
 
     // Add user message
-    const userMessage: Message = {
+    const userMessage = {
       id: Date.now().toString(),
       text: text.trim(),
       isBot: false,
@@ -83,7 +75,7 @@ export const ChatInterface = () => {
 
     // Simulate bot thinking time
     setTimeout(() => {
-      const botResponse: Message = {
+      const botResponse = {
         id: (Date.now() + 1).toString(),
         text: generateBotResponse(text),
         isBot: true,
@@ -95,7 +87,7 @@ export const ChatInterface = () => {
     }, 1000 + Math.random() * 1000);
   };
 
-  const handleQuickResponse = (response: string) => {
+  const handleQuickResponse = (response) => {
     handleSendMessage(response);
   };
 
